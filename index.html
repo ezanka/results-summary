@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  
+  <title>Frontend Mentor | Results summary component</title>
+
+  <style>
+    .attribution { font-size: 11px; text-align: center; }
+    .attribution a { color: hsl(228, 45%, 44%); }
+  </style>
+</head>
+<body>
+
+  <main>
+    <article>
+      <section class="left-section">
+        <h3>Your Result</h3>
+        <div class="round-percent">
+          <h1>76</h1>
+          <p>of 100</p>
+        </div>
+        <h2>Great</h2>
+        <p>You scored higher than 65% of the people who have taken these tests.</p>
+      </section>
+      <section class="right-section">
+        <h3>Summary</h3> 
+        <div class="container">
+          <div class="card Light_red" id="reaction-card">
+            <div class="left-card">
+              <img id="reaction-icon" alt="Reaction icon">
+              <p id="reaction-category"></p>
+            </div>
+            <p id="reaction-score">
+              <span class="score-value"></span><span class="score-divider"> / </span><span class="score-total">100</span>
+            </p>
+          </div>
+          <div class="card Orangey_yellow" id="memory-card">
+            <div class="left-card">
+              <img id="memory-icon" alt="Memory icon">
+              <p id="memory-category"></p>
+            </div>
+            <p id="memory-score">
+              <span class="score-value"></span><span class="score-divider"> / </span><span class="score-total">100</span>
+            </p>
+          </div>
+          <div class="card Green_teal" id="verbal-card">
+            <div class="left-card">
+              <img id="verbal-icon" alt="Verbal icon">
+              <p id="verbal-category"></p>
+            </div>
+            <p id="verbal-score">
+              <span class="score-value"></span><span class="score-divider"> / </span><span class="score-total">100</span>
+            </p>
+          </div>
+          <div class="card Cobalt_blue" id="visual-card">
+            <div class="left-card">
+              <img id="visual-icon" alt="Visual icon">
+              <p id="visual-category"></p>
+            </div>
+            <p id="visual-score">
+              <span class="score-value"></span><span class="score-divider"> / </span><span class="score-total">100</span>
+            </p>
+          </div>
+        </div>
+        <div class="button">
+          <div class="next-button">
+            <p>Continue</p>
+          </div>
+        </div>
+      </section>
+    </article>
+  </main>
+  
+  <!-- <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="#">Your Name Here</a>.
+  </div> -->
+
+  <script>
+    const dataUrl = './data.json'; 
+  
+    fetch(dataUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erreur lors du chargement du fichier JSON');
+        }
+        return response.json();
+      })
+      .then(data => {
+        data.forEach(item => {
+          const categoryId = `${item.category.toLowerCase()}-category`;
+          const scoreId = `${item.category.toLowerCase()}-score`;
+          const iconId = `${item.category.toLowerCase()}-icon`;
+
+          const categoryElement = document.getElementById(categoryId);
+          const scoreElement = document.getElementById(scoreId);
+          const iconElement = document.getElementById(iconId);
+
+          if (categoryElement) {
+            categoryElement.textContent = item.category;
+          }
+          if (scoreElement) {
+            const scoreValueElement = scoreElement.querySelector('.score-value');
+            const scoreTotalElement = scoreElement.querySelector('.score-total');
+            const scoreDividerElement = scoreElement.querySelector('.score-divider');
+
+            if (scoreValueElement) scoreValueElement.textContent = item.score; 
+            if (scoreDividerElement) scoreDividerElement.textContent = " / ";  
+            if (scoreTotalElement) scoreTotalElement.textContent = "100";     
+          }
+          if (iconElement) {
+            iconElement.src = item.icon;
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Erreur:', error);
+      });
+  </script>
+</body>
+</html>
